@@ -121,7 +121,7 @@ The team asks:
 
 - Which run created it?
 - Which data was used?
-- Whic([mlflow.org](https://mlflow.org/docs/latest/self-hosting/?utm_source=chatgpt.com))Which metrics were approved?
+- Which metrics were approved?
 
 MLflow provides that traceability.
 
