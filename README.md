@@ -21,7 +21,8 @@
 4. Real Enterprise Problems
 5. MLflow Core Components
 6. MLflow Architecture
-7. HoDVC, and MLflow Differ
+7. How MLflow Tracks Data Internally
+8. How Git, DVC, and MLflow Differ
 9. Local Setup with Python
 10. Local Tracking Server with SQLite
 11. Local Production-Like Setup with Helm, PostgreSQL, and MinIO
@@ -42,7 +43,8 @@
 26. Enterprise Workflow Examples
 27. Common Problems and Fixes
 28. Interview Questions
-29. Trou-
+29. Troubleshooting
+30. Conclusion
 
 # 1. Introduction
 
@@ -92,7 +94,7 @@ Without MLflow, enterprise ML teams struggle with:
 - not knowing which dataset produced a run
 - repeating experiments manually
 - storing artifacts in random places
-- handling multiple vion promotion and rollback
+- handling multiple version promotion and rollback
 
 MLflow makes the workflow structured and reproducible.
 
@@ -179,9 +181,11 @@ A central place to manage model versions and promotion stages.
                        ┌───────┴────────┐
                        ▼                ▼
             ┌──────────────────┐  ┌──────────────────┐
-            │ Backend Store    │  │ Artifact Store   │
-   ([mlflow.org](https://mlflow.org/docs/latest/self-hosting/?utm_source=chatgpt.com))       └──────────────────┘  └──────────────────┘
+            │  Backend Store   │  │  Artifact Store  │
+            └──────────────────┘  └──────────────────┘
 ```
+
+Source/Docs: [mlflow.org](https://mlflow.org/docs/latest/self-hosting/?utm_source=chatgpt.com)
 
 ### Important idea
 
@@ -747,15 +751,20 @@ Keep credentials out of Git.
 
 ```text
 Git Push
-   ↓
+   │
+   ▼
 CI Pipeline
-   ↓
+   │
+   ▼
 Build Docker Image
-   ↓
+   │
+   ▼
 Helm Upgrade
-   ↓
+   │
+   ▼
 Kubernetes Deploy
-   ↓
+   │
+   ▼
 MLflow Tracking Server Updated
 ```
 
@@ -812,11 +821,14 @@ If traffic grows, scale the tracking service horizontally and keep storage exter
 
 ```text
 Train model locally
-   ↓
+   │
+   ▼
 Log experiment to MLflow
-   ↓
+   │
+   ▼
 Compare results in UI
-   ↓
+   │
+   ▼
 Register best model
 ```
 
@@ -824,13 +836,17 @@ Register best model
 
 ```text
 Push code to Git
-   ↓
+   │
+   ▼
 CI triggers deployment
-   ↓
+   │
+   ▼
 Helm updates MLflow
-   ↓
+   │
+   ▼
 Kubernetes runs new version
-   ↓
+   │
+   ▼
 RDS and S3 keep data durable
 ```
 
@@ -838,15 +854,20 @@ RDS and S3 keep data durable
 
 ```text
 Production issue
-   ↓
+   │
+   ▼
 Check MLflow run ID
-   ↓
+   │
+   ▼
 Check params and metrics
-   ↓
+   │
+   ▼
 Check artifact version
-   ↓
+   │
+   ▼
 Check code commit
-   ↓
+   │
+   ▼
 Rollback if needed
 ```
 
